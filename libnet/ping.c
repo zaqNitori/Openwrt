@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <libnet.h>
+#include "libnet.h"
 #include <stdint.h>
 
 int main() {
@@ -15,7 +15,7 @@ int main() {
 	char payload[] = "libnet :D";
 	int bytes_written;
 
-	l = libnet_init(LIBNET_RAW4, NULL, errbuf);
+	l = libnet_init(LIBNET_RAW4, "wlan1", errbuf);
 	if ( l == NULL ) {
 		fprintf(stderr, "libnet_init() failed: %s\n", errbuf);
 		exit(EXIT_FAILURE);
