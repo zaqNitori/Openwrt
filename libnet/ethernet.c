@@ -10,7 +10,6 @@ int main()
     char payload[] = "hello libnet :D";
 //    u_int8_t mac_broadcast_addr[6] = {0x40, 0xee, 0x15, 0xd0, 0x43, 0x94};
     u_int8_t mac_broadcast_addr[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-  u_int8_t src_addr[6];
     struct libnet_ether_addr *src_mac_addr;
     int bytes_written, i;
 
@@ -35,10 +34,9 @@ int main()
         src_mac_addr->ether_addr_octet[4],\
         src_mac_addr->ether_addr_octet[5]);
 
-	memcpy(src_addr, src_mac_addr, ETHER_ADDR_LEN);
-    
-//    if( libnet_build_ethernet(mac_broadcast_addr, src_addr, ETHERTYPE_LOOPBACK, (uint8_t*)payload, sizeof(payload), l, 0)) {
-    if (libnet_autobuild_ethernet(mac_broadcast_addr, ETHERTYPE_LOOPBACK, l) == -1) {
+//    if( libnet_build_ethernet(mac_broadcast_addr, src_mac_addr, ETHERTYPE_LOOPBACK, NULL, 0, l, 0)) {
+    if( libnet_build_ethernet(mac_broadcast_addr, src_mac_addr, ETHERTYPE_LOOPBACK, (uint8_t*)payload, sizeof(payload), l, 0) == -1) {
+//    if (libnet_autobuild_ethernet(mac_broadcast_addr, ETHERTYPE_ARP, l) == -1) {
         fprintf(stderr, "Error building Ethernet header: %s\n", libnet_geterror(l));
         libnet_destroy(l);
         exit(EXIT_FAILURE);
